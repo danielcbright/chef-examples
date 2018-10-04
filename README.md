@@ -25,3 +25,4 @@ follow this repo as it will be updated often and frequently.
 | Contributors  | 
 | ------------- | 
 | Daniel Bright @danielcbright  | 
+| Brittany Woods @bnwoods |
