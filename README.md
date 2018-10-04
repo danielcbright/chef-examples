@@ -12,6 +12,7 @@ many components that make up Chef's software base. This includes:
     * Push Jobs
     * Enabling Habitat 
 *  Chef Automate
+    * [Setting up SAML Auth in A2 with Okta](./a2-saml-with-okta.md)
     * Chef Cookbook pipeline using Workflow
     * Example deployment in AWS, Azure and Google w/Autoscaling Worker Nodes
 *  Habitat
