@@ -9,6 +9,7 @@ many components that make up Chef's software base. This includes:
     * [Role Cookbook model](./role_cookbook_model.md)
     * Chef-Repo pipeline using Jenkins
     * Chef Cookbook pipeline using Jenkins
+    * [Chef Cookbook Pipeline using Azure DevOps](./azure-devops-pipeline-walkthrough.md)
     * Push Jobs
     * Enabling Habitat 
 *  Chef Automate
@@ -25,3 +26,4 @@ follow this repo as it will be updated often and frequently.
 | Contributors  | 
 | ------------- | 
 | Daniel Bright @danielcbright  | 
+| Brittany Woods @bnwoods |
