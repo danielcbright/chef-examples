@@ -39,7 +39,7 @@ The image below shows a simplified view of the Role Cookbook ecosystem, along
 with the steps needed to update a Role Cookbook and publish it to your
 environment. You'll notice the roles end in `_g`, that means "Green", we'll dive into that later as we discuss Blue/Green deployment scenarios.
 
-![Role Cookbook Update Process](/images/role_cb_update_process.png)
+![Role Cookbook Update Process](/images/role_cb_update_process_2.png)
 
 1. A new version of the `openssl` cookbook has become available in
 the community Chef Supermarket. The first step is to update the `metadata.rb` of
