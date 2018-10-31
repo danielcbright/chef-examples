@@ -8,45 +8,32 @@ Environment Pinning guide here - https://github.com/jeremymv2/env_pinning.
 
 ## What the heck is the "Role Cookbook Model" anyways?
 
-First off, let's talk about blast radius, that will help to put things into 
-context. Let's start with a scenario as follows:
+The Role Cookbook Model (referred to as the RBM from here) has been referred to 
+as a few different things overthe years. It's been called the "Application" 
+cookbook model, "Environment" model, and probably some other things. I thin the 
+"Role" model is the best namefor this because it just makes sense, you'll see what 
+I mean when you read on.
 
-_Scenario_: You have a Chef Server that's setup generally as-follows:
-  * It has a `DEV,QA and PROD` environment, in which all nodes are assigned to.
-  * It has roles such as `web_frontend, web_backend` etc... that nodes are also
-  assigned to.
-  * Finally, there are a standard set of cookbooks that are assigned to your
-  roles.
+### Key Concepts
 
-  In our scenario, we want to roll out changes to our `web_backend` nodes,
-  starting in `DEV` and moving to `PROD`. In `DEV`, we have 5 nodes, in `QA`, we
-  have 10, and in `PROD` we have 50. There's also a cookbook called 
-  `web_backend` that's currently at version `1.1`. This cookbook uses `v7.1.0` 
-  of the `openssl` community cookbook currently, but it needs to be updated to
-  use the latest version to fix a security flaw. 
+* **Limited Blast Radius** - The RBM helps to ensure that changes you make to a
+system, or group of systems, is limited to the _intended_ target(s). 
+* **Iterate & Fail Often** - When you're blast radius is large, it makes it hard
+to fail often, because failing means a bunch of things get broken. In true (here
+come some fun DevOps~ words) DevOps fashion, it helps you to be more agile, by
+allowing you to target smaller groups of systems in a more controlled manner.
+And helps you fix problems in lower environments more quickly.
+* **Appropriately Scoped** - The RBM pattern should typically follow your 
+organizational pattern, meaning the scope of your orgs, environments and roles
+should generally line up with the teams that actually touch the infra and apps
+that live within them.
+* **Scaleable** - This pattern is scaleable because it is repeatable and 
+efficient. It lends itself to the practice of starting small, iterating, then
+repeating with other targets. It also allows for complete autonomy within 
+environments, for example, the ability to have multiple roles within an 
+environment and make changes to them without affecting each other.
 
-  In this scenario, the `web_backend` cookbook has been designed with version
-  pinning in mind. It has version `v7.1.0` currently explicitly pinned in it's 
-  `metadata.rb`, and it will _only_ use that version of the `openssl` cookbook
-  because of it. The `web_frontend` cookbook however doesn't have the `openssl`
-  cookbook version pinned. This means that the default behaviour for anything
-  assigned the `web_frontend` cookbook is to pull down the latest version of
-  any dependant cookbooks, including `openssl`.
-
-  So what happens when we update the `web_backend` cookbook to use the new
-  version of `openssl`? Once that cookbook is published, along with the newer
-  version of `openssl`, **ANY** cookbook that has a dependency on the `openssl` 
-  cookbook that isnt explicity pinned to a version will pull down the latest
-  version of `openssl`. This means that any node that has the `web_frontend` 
-  cookbook assigned will update with the latest version of `openssl`. The 
-  problems with this are obvious, the _intent_ was to make a change to nodes
-  that are assigned to the `web_backend` role, however _unintentionally_ changes
-  have now been made to the `web_frontend` nodes, along with any other nodes
-  that have a dependency on `openssl` that haven't set the version explicitly.
-
-So what's the solution to this?
-
-### ... the Role Cookbook Model
+### A Simplified View of the Role Cookbook Model
 
 The image below shows a simplified view of the Role Cookbook ecosystem, along
 with the steps needed to update a Role Cookbook and publish it to your
@@ -73,9 +60,17 @@ applied to the nodes that have been assigned that role.
 
 And that is a very true statement! It doesn't, unless this process is applied to
 every cookbook you and your team develop. By setting the environment pin to only
-care about the Role Cookbook version, you're trusting that pinning will be 
-handled in subsequent cookbooks. There are some simple methods that can be done
+care about the Role Cookbook version, **you're trusting that pinning will be 
+handled in subsequent cookbooks**. There are some simple methods that can be done
 to automate this process, and even reject uploading a cookbook to the Chef 
 Server unless it has dependency versions defined.
 
-... more to come
+## Planning For the Role Cookbook Model
+
+Regardless of where you're starting from, I recommend setting up a [greenfield](https://en.wikipedia.org/wiki/Greenfield_project)
+for development and testing of this new method. I also recommend not attempting 
+to migrate existing Chef environments within themselves, but rather, when
+possible, create a new environment to move things into. This will give you a 
+clean, clear path to _done_, and also prevent you from muddying the waters by
+mixing new with old practices.
+
