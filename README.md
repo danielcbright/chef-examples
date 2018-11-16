@@ -10,7 +10,8 @@ many components that make up Chef's software base. This includes:
     * Chef-Repo pipeline using Jenkins
     * Chef Cookbook pipeline using Jenkins
     * Push Jobs
-    * Enabling Habitat 
+    * Enabling Habitat
+    * [Downloading All Cookbooks + Versions, then Uploading to another Chef Server](./download_upload_chef_cookbooks.md)
 *  Chef Automate
     * [Setting up SAML Auth in A2 with Okta](./a2-saml-with-okta.md)
     * Chef Cookbook pipeline using Workflow
